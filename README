@@ -1,13 +1,18 @@
 A simple calculator GUI. 
 
+You can run this application by entering "python Main.py" (if using the 
+command prompt) or by double-clicking the file. Python 2.7 (or a higher
+version) is required.
+
 Capable of performing one of four arithmetic operations: addition, 
 subtraction, multiplication, and division.
 
-Uses infix notation (e.g. the sum of 2 and 2 would be computed by clicking
+Uses infix notation. E.g. the sum of 2 and 2 would be computed by clicking
 the button labelled "2", then the "+" button, and then "2" again, followed
 by the "=" button. In more general form, 
 
     FIRST_OPERAND  OPERATOR  SECOND_OPERAND  EQUALS
 
 Does not support operations entailing more than one operator or more than
-two operands.
+two operands. Also does not support decimal operands, although the output
+will be represented in decimal form if necessary.
