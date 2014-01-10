@@ -1,11 +1,15 @@
 from Tkinter import *
 
-#Displays to the user the numbers and operators entered so far. Current
-#state of user input represented as a string in self.output['text'].
 class Display(Frame):
+"""Displays to the user the numbers and operators user has entered. Current
+state of user input represented as a string in self.output['text'].
 
-    #Constructor method.
+"""
+
     def __init__(self, master=None):
+    """Initializes the display.
+
+    """
         Frame.__init__(self, master)
         self.output = Label(self, text='0', bg='white', bd=5, \
             relief=SUNKEN, width=25)
@@ -14,10 +18,12 @@ class Display(Frame):
         self.seen_op = False
         self.ready_equals = False
 
-    #Outputs the provided number NUM (which is represented as a string) to
-    #the display. Determines whether NUM should replace or simply be
-    #be appended to the display's current contents.
     def output_num(self, num):
+    """Outputs the provided number NUM (which is represented as a string) to
+    the display. Determines whether NUM should replace or simply be
+    be appended to the display's current contents.
+
+    """
         if self.initial == True:
             self.output['text'] = num
             self.initial = False
@@ -26,48 +32,66 @@ class Display(Frame):
                 self.ready_equals = True
             self.output['text'] += num
 
-    #Outputs the provided operator OP (represented as a string) to
-    #the display.
     def output_op(self, op):
+    """Outputs the provided operator OP (represented as a string) to
+    the display.
+
+    """
         self.output['text'] += ' ' + op + ' '  
         self.seen_op = True
 
-    #Returns a string corresponding to the display content.
     def get_text(self):
+    """Returns a string corresponding to the display content.
+
+    """
         return self.output['text']
 
-    #Changes the display content to NEW_TEXT.
     def set_text(self, new_text):
+    """Sets the display content to NEW_TEXT.
+
+    """
         self.output['text'] = new_text
 
-    #Sets the instance variable self.initial to BOOLEAN.
     def set_initial(self, boolean):
+    """Sets self.initial to BOOLEAN. The instance variable self.initial
+    is used to indicate whether the calculator is in its initial state 
+    (i.e. the user will begin a new computation.
+
+    """
         self.initial = boolean
  
-    #Returns whether the user has already entered an operator.
     def get_seen_op(self):
+    """Returns whether the user has already entered an operator into the
+    calculator.
+
+    """
         return self.seen_op
 
-    #Sets self.seen_op to BOOLEAN.
     def set_seen_op(self, boolean):
+    """Sets self.seen_op to BOOLEAN.
+
+    """
         self.seen_op = boolean
 
 
-#Displays the buttons (numbers, operators, clear).
 class Application(Frame):
+"""Displays the calculator buttons (numbers, operators, clear).
 
-    #Constructor method.
+"""
+
     def __init__(self, display, master=None):
+    """Initializes the Application.
+    
+    """
         Frame.__init__(self, master)
         self.display = display
         self.createWidgets()
  
-    #Initializes the 16 buttons that will appear on the calculator, along
-    #with their underlying values/functions.
     def createWidgets(self):
+    """Creates the 16 buttons that will appear on the calculator, along
+    with their underlying values/functions.
 
-        #The position in the grid of the i'th number (e.g. the button
-        #labelled '2' will be at position (2, 1)).
+    """
         num_positions = [   (3,0), (2,0), (2,1), (2,2), (1,0), \
                             (1,1), (1,2), (0,0), (0,1), (0,2)   ]  
 
@@ -99,22 +123,28 @@ class Application(Frame):
         self.change_equals_state(DISABLED)
         self.change_ops_state(DISABLED)
 
-    #Called when the user clicks one of the number buttons.
     def handle_num_general(self, num):
+    """Called when the user clicks one of the number buttons.
+
+    """
         if not self.display.get_seen_op():
             self.change_ops_state(ACTIVE)
         else:
             self.change_equals_state(ACTIVE)
         self.display.output_num(num) 
 
-    #Called when the user clicks one of the operator buttons.
     def handle_op_general(self, op):
+    """Called when the user clicks one of the operator buttons.
+
+    """
         self.change_ops_state(DISABLED)
         self.display.output_op(op)
 
-    #Called when the user clicks the equals button. Does the actual
-    #calculation and returns the result.
     def perform_op(self):
+    """Called when the user clicks the equals button. Does the actual
+    calculation and returns the result.
+
+    """
         args = self.display.get_text().split(' ') 
         arg1 = args[0]
         arg2 = args[2]
@@ -134,25 +164,31 @@ class Application(Frame):
 
         self.reset(result)
 
-    #Returns the calculator to its initial state. Called after the clear
-    #or equal button has been clicked.
     def reset(self, new_text):
+    """Returns the calculator to its initial state. Called after the clear
+    or equal button has been clicked.
+
+    """
         self.display.set_text(new_text)
         self.display.set_initial(True)
         self.display.set_seen_op(False)
         self.change_ops_state(DISABLED)
         self.change_equals_state(DISABLED)
 
-    #Changes the four operator buttons to an either ACTIVE (the buttons
-    #can be clicked, signifying that they are valid options) or DISABLED
-    #(nonclickable, and thus invalid options) state.
     def change_ops_state(self, state):
+    """Changes the four operator buttons to an either ACTIVE (the buttons
+    can be clicked, signifying that they are valid options) or DISABLED
+    (nonclickable, and thus invalid options) state.
+
+    """
         for op_button in self.operators.values():
             op_button['state'] = state
 
-    #Like the CHANGE_OPS_STATE method, sets the equals button to STATE,
-    #which take on the value ACTIVE or DISABLED. 
     def change_equals_state(self, state):
+    """Like the CHANGE_OPS_STATE method, sets the equals button to STATE,
+    which take on the value ACTIVE or DISABLED. 
+
+    """
         self.equals['state'] = state
 
 
